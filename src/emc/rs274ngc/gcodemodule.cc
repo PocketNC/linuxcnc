@@ -466,6 +466,12 @@ int LOCK_ROTARY(int line_no, int joint_num) {return 0;}
 void INTERP_ABORT(int reason,const char *message) {}
 void PLUGIN_CALL(int len, const char *call) {}
 void IO_PLUGIN_CALL(int len, const char *call) {}
+void ADJUST_KINS_OFFSET(void)
+{
+    printf("gcodemodule: ADJUST_KINS_OFFSET\n");
+
+    return;
+}
 
 void STRAIGHT_PROBE(int line_number, 
                     double x, double y, double z, 

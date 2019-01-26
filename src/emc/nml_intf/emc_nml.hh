@@ -1220,6 +1220,8 @@ class EMC_MOTION_STAT:public EMC_MOTION_STAT_MSG {
     double analog_output[EMCMOT_MAX_AIO]; //motion analog outputs queried by interp
     int debug;			// copy of EMC_DEBUG global
     int on_soft_limit;
+    char trajKinsType;
+    bool trajKinsTypeModified;
     int external_offsets_applied;
     EmcPose eoffset_pose;
 };
@@ -2185,6 +2187,16 @@ class EMC_STAT:public EMC_STAT_MSG {
     EMC_IO_STAT io;
 
     int debug;			// copy of EMC_DEBUG global
+};
+
+class EMC_ADJUST_KINS_OFFSET_DATA:public EMC_TRAJ_CMD_MSG {
+  public:
+    EMC_ADJUST_KINS_OFFSET_DATA():EMC_TRAJ_CMD_MSG(EMC_ADJUST_KINS_OFFSET_DATA_TYPE,
+                        sizeof(EMC_ADJUST_KINS_OFFSET_DATA)) {
+    };
+
+    // For internal NML/CMS use only.
+    void update(CMS * cms);
 };
 
 /*

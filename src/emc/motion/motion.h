@@ -185,6 +185,7 @@ extern "C" {
         EMCMOT_SET_AXIS_VEL_LIMIT,      /* set the max axis vel */
         EMCMOT_SET_AXIS_ACC_LIMIT,      /* set the max axis acc */
         EMCMOT_SET_AXIS_LOCKING_JOINT,  /* set the axis locking joint */
+        EMCMOT_ADJUST_KINS_OFFSET_DATA,  /* set the offset in kins */
 
     } cmd_code_t;
 
@@ -733,6 +734,7 @@ Suggestion: Split this in to an Error and a Status flag register..
 	unsigned int tcqlen;
 	EmcPose tool_offset;
 	int atspeed_next_feed;  /* at next feed move, wait for spindle to be at speed  */
+	char   kinsType;					// Rushabh	
 	unsigned char tail;	/* flag count for mutex detect */
 	int external_offsets_applied;
 	EmcPose eoffset_pose;
@@ -802,6 +804,7 @@ Suggestion: Split this in to an Error and a Status flag register..
         double maxFeedScale;
         int inhibit_probe_jog_error;
         int inhibit_probe_home_error;
+        char   kinsType;					// Rushabh
     } emcmot_config_t;
 
 /*********************************

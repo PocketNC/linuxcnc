@@ -3410,6 +3410,9 @@ int Interp::convert_modal_0(int code,    //!< G code, must be from group 0
   } else if (code == G_5_3) {
     CHP(convert_nurbs(code, block, settings));
   } else if ((code == G_4) || (code == G_53));  /* handled elsewhere */
+  else if (code == G_12_1) {
+    CHP(convert_kins_switch(block, settings));
+  }
   else
     ERS(NCE_BUG_CODE_NOT_G4_G10_G28_G30_G52_G53_OR_G92_SERIES);
   return INTERP_OK;
@@ -5439,6 +5442,19 @@ int Interp::convert_tool_select(block_pointer block,     //!< pointer to a block
   SELECT_POCKET(pocket, block->t_number);
   settings->selected_pocket = pocket;
   settings->selected_tool = block->t_number;
+  return INTERP_OK;
+}
+
+/*
+ 
+ */
+
+// convert_kins_switch
+
+int Interp::convert_kins_switch(block_pointer block,     //!< pointer to a block of RS274 instructions
+                               setup_pointer settings)  //!< pointer to machine settings             
+{
+  ADJUST_KINS_OFFSET();
   return INTERP_OK;
 }
 

@@ -961,6 +961,9 @@ extern void PLUGIN_CALL(int len, const char *call);
 // same for IoTask context
 extern void IO_PLUGIN_CALL(int len, const char *call);
 
+// adjust kins offset
+extern void ADJUST_KINS_OFFSET(void);
+
 extern int     GET_EXTERNAL_OFFSET_APPLIED();
 extern EmcPose GET_EXTERNAL_OFFSETS();
 

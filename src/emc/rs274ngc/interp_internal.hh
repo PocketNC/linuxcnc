@@ -189,6 +189,7 @@ enum SPINDLE_MODE { CONSTANT_RPM, CONSTANT_SURFACE };
 #define G_7     70
 #define G_8     80
 #define G_10   100
+#define G_12_1 121
 #define G_17   170
 #define G_17_1 171
 #define G_18   180
@@ -306,6 +307,7 @@ const char *strstore(const char *s);
 enum phases  {
     NO_REMAPPED_STEPS,
     STEP_COMMENT,
+    STEP_G12_13,
     STEP_SPINDLE_MODE,
     STEP_FEED_MODE,
     STEP_SET_FEED_RATE,

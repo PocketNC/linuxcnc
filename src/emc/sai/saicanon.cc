@@ -1199,3 +1199,11 @@ void IO_PLUGIN_CALL(int len, const char *call)
 {
     printf("IO_PLUGIN_CALL(%d)\n",len);
 }
+
+
+void ADJUST_KINS_OFFSET(void)
+{
+    printf("saicanon: ADJUST_KINS_OFFSET\n");
+
+    return;
+}

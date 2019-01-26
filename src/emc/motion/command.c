@@ -1904,6 +1904,18 @@ void emcmotCommandHandler(void *arg, long period)
 	    axis->locking_joint = joint_num;
             break;
 
+    case EMCMOT_ADJUST_KINS_OFFSET_DATA:
+        if(emcmotConfig->kinsType == 'r')
+        {
+         emcmotConfig->kinsType = 's';
+        }
+        else
+        {
+          emcmotConfig->kinsType = 'r';
+        }
+        rtapi_print_msg(RTAPI_MSG_ERR, "recv'd EMCMOT_ADJUST_KINS_OFFSET_DATA <%c>\n", emcmotConfig->kinsType);
+            break;
+
 	default:
 	    rtapi_print_msg(RTAPI_MSG_DBG, "UNKNOWN");
 	    reportError(_("unrecognized command %d"), emcmotCommand->command);

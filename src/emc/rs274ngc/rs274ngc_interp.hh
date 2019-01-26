@@ -696,6 +696,8 @@ int read_inputs(setup_pointer settings);
      AXIS_MASK_A =   8, AXIS_MASK_B =  16, AXIS_MASK_C =  32,
      AXIS_MASK_U =  64, AXIS_MASK_V = 128, AXIS_MASK_W = 256,
  };
+
+ int convert_kins_switch(block_pointer block, setup_pointer settings);
 };
 
 #endif

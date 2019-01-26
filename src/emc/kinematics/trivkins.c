@@ -18,22 +18,45 @@
 #include "rtapi_math.h"
 #include "rtapi_string.h"
 
+#define OFFSET_VAL 1000.0
+
 struct data { 
     hal_s32_t joints[EMCMOT_MAX_JOINTS];
+    hal_bit_t jointsKinsSwitchType[EMCMOT_MAX_JOINTS];
 } *data;
 
-#define SET(f) pos->f = joints[i]
+#define SET(f) pos->f = (joints[i])
 
+int kinematicsSwitch()
+{
+    data->jointsKinsSwitchType[0] = !(data->jointsKinsSwitchType[0]);
+    rtapi_print_msg(RTAPI_MSG_ERR, "trivkins: INFO: kinematicsSwitch <%d>\n", data->jointsKinsSwitchType[0]);
+
+    return 1;
+}
+
+static double prevForwardOffset = -1.0;
 int kinematicsForward(const double *joints,
 		      EmcPose * pos,
 		      const KINEMATICS_FORWARD_FLAGS * fflags,
 		      KINEMATICS_INVERSE_FLAGS * iflags)
 {
     int i;
+    double offset = 1.0;
+    if(data->jointsKinsSwitchType[0] == 1)
+    {
+        offset = OFFSET_VAL;
+    }
+
+    if(prevForwardOffset != offset)
+    {
+        prevForwardOffset = offset;
+        rtapi_print_msg(RTAPI_MSG_ERR, "kinematicsForward: INFO: offset <%f>\n", offset);
+    }
 
     for(i = 0; i < EMCMOT_MAX_JOINTS; i++) {
         switch(data->joints[i]) {
-            case 0: SET(tran.x); break;
+            case 0: SET(tran.x); (pos->tran.x) *= offset; break;
             case 1: SET(tran.y); break;
             case 2: SET(tran.z); break;
             case 3: SET(a); break;
@@ -47,16 +70,28 @@ int kinematicsForward(const double *joints,
 
     return 0;
 }
-
+static double prevInverseOffset = -1.0;
 int kinematicsInverse(const EmcPose * pos,
 		      double *joints,
 		      const KINEMATICS_INVERSE_FLAGS * iflags,
 		      KINEMATICS_FORWARD_FLAGS * fflags)
 {
     int i;
+    double offset = 1.0;
+    if(data->jointsKinsSwitchType[0] == 1)
+    {
+        offset = OFFSET_VAL;
+    }
+
+    if(prevInverseOffset != offset)
+    {
+        prevInverseOffset = offset;
+        rtapi_print_msg(RTAPI_MSG_ERR, "kinematicsInverse: INFO: offset <%f>\n", offset);
+    }
+
     for(i = 0; i < EMCMOT_MAX_JOINTS; i++) {
         switch(data->joints[i]) {
-            case 0: joints[i] = pos->tran.x; break;
+            case 0: joints[i] = pos->tran.x/offset; break;
             case 1: joints[i] = pos->tran.y; break;
             case 2: joints[i] = pos->tran.z; break;
             case 3: joints[i] = pos->a; break;
@@ -98,6 +133,7 @@ RTAPI_MP_STRING(kinstype, "Kinematics Type (Identity,Both)");
 
 EXPORT_SYMBOL(kinematicsType);
 EXPORT_SYMBOL(kinematicsForward);
+EXPORT_SYMBOL(kinematicsSwitch);
 EXPORT_SYMBOL(kinematicsInverse);
 MODULE_LICENSE("GPL");
 
@@ -132,6 +168,7 @@ int rtapi_app_main(void) {
 
     for(i=0; i<EMCMOT_MAX_JOINTS; i++) {
 	data->joints[i] = next_axis_number();
+	data->jointsKinsSwitchType[i] = 0;
     }
     switch (*kinstype) {
       case 'b': case 'B': ktype = KINEMATICS_BOTH;         break;
@@ -139,7 +176,7 @@ int rtapi_app_main(void) {
       case 'i': case 'I': ktype = KINEMATICS_INVERSE_ONLY; break;
       case '1': default:  ktype = KINEMATICS_IDENTITY;
     }
-
+    rtapi_print_msg(RTAPI_MSG_ERR, "trivkins: kinstype <%d>\n", ktype);
     hal_ready(comp_id);
     return 0;
 }

@@ -3277,3 +3277,14 @@ void IO_PLUGIN_CALL(int len, const char *call)
 
     interp_list.append(call_msg);
 }
+
+void ADJUST_KINS_OFFSET(void)
+{
+    flush_segments();
+
+    EMC_ADJUST_KINS_OFFSET_DATA adjustKinsOffsetMsg;
+    printf("emccanon: ADJUST_KINS_OFFSET\n");
+    interp_list.append(adjustKinsOffsetMsg);
+
+    return;
+}

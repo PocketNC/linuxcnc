@@ -305,6 +305,34 @@ void emcmotController(void *arg, long period)
 static void process_inputs(void)
 {
     int joint_num, spindle_num;
+
+    if(emcmotStatus->kinsType != emcmotConfig->kinsType)
+    {
+
+      emcmot_joint_t *jointKinsSwitch;
+      double joint_posKinsSwitch[EMCMOT_MAX_JOINTS] = {0,};
+      /* copy joint position feedback to local array */
+      for (joint_num = 0; joint_num < emcmotConfig->numJoints; joint_num++)
+      {
+        /* point to joint struct */
+        jointKinsSwitch = &joints[joint_num];
+        /* copy feedback */
+        joint_posKinsSwitch[joint_num] = jointKinsSwitch->pos_fb;
+      }
+
+      kinematicsSwitch();
+
+      KINEMATICS_FORWARD_FLAGS tmpFFlags = fflags;
+      KINEMATICS_INVERSE_FLAGS tmpIFlags = iflags;
+      
+      kinematicsForward(joint_posKinsSwitch, &emcmotStatus->carte_pos_cmd, &tmpFFlags, &tmpIFlags);
+      tpSetPos(&emcmotDebug->coord_tp, &emcmotStatus->carte_pos_cmd);
+      
+      emcmotStatus->kinsType = emcmotConfig->kinsType;
+      emcmotStatus->carte_pos_fb_ok = 1;
+
+      // rtapi_print_msg(RTAPI_MSG_ERR, "trivkins: INFO: kinematicsSwitch <%d>\n", data->jointsKinsSwitchType[0]);
+    }
     double abs_ferror, tmp, scale;
     joint_hal_t *joint_data;
     emcmot_joint_t *joint;

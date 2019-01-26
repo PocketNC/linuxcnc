@@ -1938,6 +1938,13 @@ int emcMotionUpdate(EMC_MOTION_STAT * stat)
     r1 = emcJointUpdate(&stat->joint[0], stat->traj.joints);
     r2 = emcAxisUpdate(&stat->axis[0], stat->traj.axis_mask);
     r3 = emcTrajUpdate(&stat->traj);
+    
+    if(stat->trajKinsType != emcmotStatus.kinsType)
+    {
+        fprintf(stderr, "trajKinsType<%c>; kinsType<%c>; \n", stat->trajKinsType, emcmotStatus.kinsType);
+        stat->trajKinsType = emcmotStatus.kinsType;             // Rushabh
+        stat->trajKinsTypeModified = true;
+    }
     r4 = emcSpindleUpdate(&stat->spindle[0], stat->traj.spindles);
     stat->heartbeat = localMotionHeartbeat;
     stat->command_type = localMotionCommandType;
@@ -2012,6 +2019,14 @@ int emcSetProbeErrorInhibit(int j_inhibit, int h_inhibit) {
     emcmotCommand.command = EMCMOT_SET_PROBE_ERR_INHIBIT;
     emcmotCommand.probe_jog_err_inhibit = j_inhibit;
     emcmotCommand.probe_home_err_inhibit = h_inhibit;
+    return usrmotWriteEmcmotCommand(&emcmotCommand);
+}
+
+int emcAdjustKinsOffset(void)
+{
+    emcmotCommand.command = EMCMOT_ADJUST_KINS_OFFSET_DATA;
+	fprintf(stderr, "emcTaskIntf.cc: emcAdjustKinsOffset\n");
+
     return usrmotWriteEmcmotCommand(&emcmotCommand);
 }
 

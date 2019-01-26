@@ -1592,6 +1592,10 @@ static int emcTaskCheckPreconditions(NMLmsg * cmd)
 	return EMC_TASK_EXEC_DONE;
 	break;
 
+    case EMC_ADJUST_KINS_OFFSET_DATA_TYPE:
+  return EMC_TASK_EXEC_WAITING_FOR_MOTION_AND_IO;
+  break;
+
 
     default:
 	// unrecognized command
@@ -2356,6 +2360,10 @@ static int emcTaskIssueCommand(NMLmsg * cmd)
 	retval =  emcIoPluginCall( (EMC_IO_PLUGIN_CALL *) cmd);
 	break;
 
+    case EMC_ADJUST_KINS_OFFSET_DATA_TYPE:
+  retval =  emcAdjustKinsOffset();
+  break;
+
      default:
 	// unrecognized command
 	if (emc_debug & EMC_DEBUG_TASK_ISSUE) {
@@ -2474,6 +2482,10 @@ static int emcTaskCheckPostconditions(NMLmsg * cmd)
     case EMC_IO_PLUGIN_CALL_TYPE:
 	return EMC_TASK_EXEC_DONE;
 	break;
+
+  case EMC_ADJUST_KINS_OFFSET_DATA_TYPE:
+    return EMC_TASK_EXEC_WAITING_FOR_KINS_SWITCH;
+    break;
 
     default:
 	// unrecognized command
@@ -2708,8 +2720,20 @@ static int emcTaskExecute(void)
 						emcStatus->motion.spindle[n].orient_fault);
 			}
 		}
-	}
+	}	
 	break;
+
+  case EMC_TASK_EXEC_WAITING_FOR_KINS_SWITCH:
+  {
+    if(emcStatus->motion.trajKinsTypeModified)
+    {
+      fprintf(stderr, "EMC_ADJUST_KINS_OFFSET_DATA_TYPE: Done calling <emcTaskPlanSynch>\n");
+      emcStatus->motion.trajKinsTypeModified = false;
+      emcTaskPlanSynch();
+      emcStatus->task.execState = EMC_TASK_EXEC_DONE;
+    }
+    break;
+  }
 
     case EMC_TASK_EXEC_WAITING_FOR_DELAY:
 	STEPPING_CHECK();
