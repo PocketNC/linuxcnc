@@ -2022,10 +2022,12 @@ int emcSetProbeErrorInhibit(int j_inhibit, int h_inhibit) {
     return usrmotWriteEmcmotCommand(&emcmotCommand);
 }
 
-int emcAdjustKinsOffset(void)
+int emcAdjustKinsOffset(double adjustKinsVar0, double adjustKinsVar1)
 {
     emcmotCommand.command = EMCMOT_ADJUST_KINS_OFFSET_DATA;
-	fprintf(stderr, "emcTaskIntf.cc: emcAdjustKinsOffset\n");
+    emcmotCommand.adjustKinsVar0 = adjustKinsVar0;
+    emcmotCommand.adjustKinsVar1 = adjustKinsVar1;
+    // fprintf(stderr, "emcTaskIntf.cc: emcAdjustKinsOffset p<%0.3f>;  q<%0.3f>; \n", adjustKinsVar0, adjustKinsVar1);
 
     return usrmotWriteEmcmotCommand(&emcmotCommand);
 }

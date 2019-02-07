@@ -1,0 +1,52 @@
+G12.1 P0 (Switch Back To TrivKins)
+G0 X0 Y0 Z0 A0 C0
+
+G0 C90 X10 Y1
+G1 F10 Z02
+G12.1 P1 (Switch To XYZAC)
+T0M6
+G1 F10 Z00
+G12.1 P0 (Switch Back To TrivKins)
+T1M6
+G1 F10 Z02
+
+M2
+
+G0 C90 X0 Y10
+G1 F10 Z00
+G12.1 P1 (Switch To XYZAC)
+G1 F10 Z02
+G12.1 P0 (Switch Back To TrivKins)
+G1 F10 Z00
+
+G0 C90 X10 Y50
+G1 F10 Z02
+G12.1 P1 (Switch To XYZAC)
+G1 F10 Z00
+G12.1 P0 (Switch Back To TrivKins)
+G1 F10 Z02
+
+G0 C90 X50 Y10
+G1 F10 Z00
+G12.1 P1 (Switch To XYZAC)
+G1 F10 Z02
+G12.1 P0 (Switch Back To TrivKins)
+G1 F10 Z00
+
+G0 X0 Y0 Z0 A0 C0
+M2
+
+G0 X0 Y0 Z0 A0 C0
+G0 C90 X10 Y1
+G1 F10 Z02
+G12.1 P1 (Switch To XYZAC)
+;After switch X=1,Y=-10
+G1F10 Y-10 Z2
+G4 p2
+;G1 F10 Z00 X11
+G12.1 P0 (Switch Back To TrivKins)
+;After this switch X=10,Y=1
+G4 p2
+G1 F10 Z02
+
+M2

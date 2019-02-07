@@ -1905,16 +1905,16 @@ void emcmotCommandHandler(void *arg, long period)
             break;
 
     case EMCMOT_ADJUST_KINS_OFFSET_DATA:
-        if(emcmotConfig->kinsType == 'r')
-        {
-         emcmotConfig->kinsType = 's';
-        }
-        else
-        {
-          emcmotConfig->kinsType = 'r';
-        }
-        rtapi_print_msg(RTAPI_MSG_ERR, "recv'd EMCMOT_ADJUST_KINS_OFFSET_DATA <%c>\n", emcmotConfig->kinsType);
-            break;
+      emcmotConfig->adjustKinsVar0 = emcmotCommand->adjustKinsVar0;
+      emcmotConfig->adjustKinsVar1 = emcmotCommand->adjustKinsVar1;
+      if(emcmotConfig->kinsType == 'r'){
+        emcmotConfig->kinsType = 's';
+      }
+      else{
+        emcmotConfig->kinsType = 'r';
+      }
+      // rtapi_print_msg(RTAPI_MSG_ERR, "recv'd EMCMOT_ADJUST_KINS_OFFSET_DATA <%c> <%0.6f> <%0.6f>\n", emcmotConfig->kinsType, emcmotConfig->adjustKinsVar0, emcmotConfig->adjustKinsVar1);
+      break;
 
 	default:
 	    rtapi_print_msg(RTAPI_MSG_DBG, "UNKNOWN");

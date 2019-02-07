@@ -3411,6 +3411,7 @@ int Interp::convert_modal_0(int code,    //!< G code, must be from group 0
     CHP(convert_nurbs(code, block, settings));
   } else if ((code == G_4) || (code == G_53));  /* handled elsewhere */
   else if (code == G_12_1) {
+    settings->kinsSwitch_flag = true;
     CHP(convert_kins_switch(block, settings));
   }
   else
@@ -5454,7 +5455,8 @@ int Interp::convert_tool_select(block_pointer block,     //!< pointer to a block
 int Interp::convert_kins_switch(block_pointer block,     //!< pointer to a block of RS274 instructions
                                setup_pointer settings)  //!< pointer to machine settings             
 {
-  ADJUST_KINS_OFFSET();
+  // fprintf(stderr, "convert_kins_switch: p<%0.3f>;  q<%0.3f>; \n", block->p_number, block->q_number);
+  ADJUST_KINS_OFFSET(block->p_number, block->q_number);
   return INTERP_OK;
 }
 

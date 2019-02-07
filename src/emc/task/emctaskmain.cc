@@ -413,6 +413,7 @@ static EMC_TASK_PLAN_EXECUTE *execute_msg;
 static EMC_TASK_PLAN_OPEN *open_msg;
 static EMC_TASK_PLAN_SET_OPTIONAL_STOP *os_msg;
 static EMC_TASK_PLAN_SET_BLOCK_DELETE *bd_msg;
+static EMC_ADJUST_KINS_OFFSET_DATA *kSwitch_msg;
 
 static EMC_AUX_INPUT_WAIT *emcAuxInputWaitMsg;
 static int emcAuxInputWaitType = 0;
@@ -2361,7 +2362,9 @@ static int emcTaskIssueCommand(NMLmsg * cmd)
 	break;
 
     case EMC_ADJUST_KINS_OFFSET_DATA_TYPE:
-  retval =  emcAdjustKinsOffset();
+  kSwitch_msg = (EMC_ADJUST_KINS_OFFSET_DATA *) cmd;
+  // fprintf(stderr, "EMC_ADJUST_KINS_OFFSET_DATA_TYPE %0.3f %0.3f\n", kSwitch_msg->adjustKinsVar0, kSwitch_msg->adjustKinsVar1);
+  retval =  emcAdjustKinsOffset(kSwitch_msg->adjustKinsVar0, kSwitch_msg->adjustKinsVar1);
   break;
 
      default:
@@ -2727,7 +2730,7 @@ static int emcTaskExecute(void)
   {
     if(emcStatus->motion.trajKinsTypeModified)
     {
-      fprintf(stderr, "EMC_ADJUST_KINS_OFFSET_DATA_TYPE: Done calling <emcTaskPlanSynch>\n");
+      // fprintf(stderr, "EMC_ADJUST_KINS_OFFSET_DATA_TYPE: Done calling <emcTaskPlanSynch> %p: X=%0.3f Y=%0.3f Z=%0.3f\n", emcStatus, emcStatus->motion.traj.position.tran.x, emcStatus->motion.traj.position.tran.y, emcStatus->motion.traj.position.tran.z);
       emcStatus->motion.trajKinsTypeModified = false;
       emcTaskPlanSynch();
       emcStatus->task.execState = EMC_TASK_EXEC_DONE;

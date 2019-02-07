@@ -2196,6 +2196,9 @@ class EMC_ADJUST_KINS_OFFSET_DATA:public EMC_TRAJ_CMD_MSG {
     };
 
     // For internal NML/CMS use only.
+    double adjustKinsVar0;
+    double adjustKinsVar1;
+    
     void update(CMS * cms);
 };
 

@@ -101,6 +101,6 @@ extern int kinematicsHome(struct EmcPose * world,
 
 extern KINEMATICS_TYPE kinematicsType(void);
 
-extern int kinematicsSwitch(void);
+extern int kinematicsSwitch(double adjustKinsVar0, double adjustKinsVar1);
 
 #endif

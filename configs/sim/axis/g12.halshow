@@ -1,0 +1,1 @@
+pin+joint.0.pos-cmd pin+joint.0.pos-fb pin+joint.1.pos-cmd pin+joint.1.pos-fb pin+joint.4.pos-cmd pin+joint.4.pos-fb pin+axis.x.pos-cmd pin+axis.y.pos-cmd pin+axis.c.pos-cmd pin+axis.z.pos-cmd pin+axis.a.pos-cmd pin+joint.2.pos-cmd pin+joint.2.pos-fb pin+joint.3.pos-cmd pin+joint.3.pos-fb

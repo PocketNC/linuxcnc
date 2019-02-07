@@ -2004,6 +2004,7 @@ int tpAddLine(TP_STRUCT * const tp, EmcPose end, int canon_motion_type, double v
         return TP_ERR_FAIL;
     }
     tp_info_print("== AddLine ==\n");
+    // rtapi_print_msg(RTAPI_MSG_ERR, "tpAddLine: END: X:%0.3f Y:%0.3f Z:%0.3f\n", end.tran.x, end.tran.y, end.tran.z);
 
     // Initialize new tc struct for the line segment
     TC_STRUCT tc = {0};

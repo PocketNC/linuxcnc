@@ -536,7 +536,7 @@ int emcSetupArcBlends(int arcBlendEnable,
 int emcSetProbeErrorInhibit(int j_inhibit, int h_inhibit);
 int emcGetExternalOffsetApplied(void);
 EmcPose emcGetExternalOffsets(void);
-extern int emcAdjustKinsOffset(void);
+extern int emcAdjustKinsOffset(double adjustKinsVar0, double adjustKinsVar1);
 
 extern int emcUpdate(EMC_STAT * stat);
 // full EMC status

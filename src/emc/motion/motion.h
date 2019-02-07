@@ -273,6 +273,9 @@ extern "C" {
         double maxFeedScale;
 	double ext_offset_vel;	/* velocity for an external axis offset */
 	double ext_offset_acc;	/* acceleration for an external axis offset */
+
+    double adjustKinsVar1;
+    double adjustKinsVar0;
     } emcmot_command_t;
 
 /*! \todo FIXME - these packed bits might be replaced with chars
@@ -734,7 +737,9 @@ Suggestion: Split this in to an Error and a Status flag register..
 	unsigned int tcqlen;
 	EmcPose tool_offset;
 	int atspeed_next_feed;  /* at next feed move, wait for spindle to be at speed  */
-	char   kinsType;					// Rushabh	
+	double adjustKinsVar0;					// Rushabh
+    double adjustKinsVar1;					// Rushabh
+    char   kinsType;					// Rushabh	
 	unsigned char tail;	/* flag count for mutex detect */
 	int external_offsets_applied;
 	EmcPose eoffset_pose;
@@ -804,6 +809,8 @@ Suggestion: Split this in to an Error and a Status flag register..
         double maxFeedScale;
         int inhibit_probe_jog_error;
         int inhibit_probe_home_error;
+        double adjustKinsVar0;					// Rushabh
+        double adjustKinsVar1;					// Rushabh
         char   kinsType;					// Rushabh
     } emcmot_config_t;
 

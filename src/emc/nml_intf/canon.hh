@@ -962,7 +962,7 @@ extern void PLUGIN_CALL(int len, const char *call);
 extern void IO_PLUGIN_CALL(int len, const char *call);
 
 // adjust kins offset
-extern void ADJUST_KINS_OFFSET(void);
+extern void ADJUST_KINS_OFFSET(double adjustKinsVar0, double adjustKinsVar1);
 
 extern int     GET_EXTERNAL_OFFSET_APPLIED();
 extern EmcPose GET_EXTERNAL_OFFSETS();

@@ -320,15 +320,18 @@ static void process_inputs(void)
         joint_posKinsSwitch[joint_num] = jointKinsSwitch->pos_fb;
       }
 
-      kinematicsSwitch();
+      kinematicsSwitch(emcmotConfig->adjustKinsVar0, emcmotConfig->adjustKinsVar1);
 
+      
       KINEMATICS_FORWARD_FLAGS tmpFFlags = fflags;
       KINEMATICS_INVERSE_FLAGS tmpIFlags = iflags;
       
       kinematicsForward(joint_posKinsSwitch, &emcmotStatus->carte_pos_cmd, &tmpFFlags, &tmpIFlags);
       tpSetPos(&emcmotDebug->coord_tp, &emcmotStatus->carte_pos_cmd);
       
-      emcmotStatus->kinsType = emcmotConfig->kinsType;
+      emcmotStatus->kinsType        = emcmotConfig->kinsType;
+      emcmotStatus->adjustKinsVar0  = emcmotConfig->adjustKinsVar0;
+      emcmotStatus->adjustKinsVar1  = emcmotConfig->adjustKinsVar1;
       emcmotStatus->carte_pos_fb_ok = 1;
 
       // rtapi_print_msg(RTAPI_MSG_ERR, "trivkins: INFO: kinematicsSwitch <%d>\n", data->jointsKinsSwitchType[0]);
